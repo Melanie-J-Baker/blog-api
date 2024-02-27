@@ -9,11 +9,8 @@ const userArgs = process.argv.slice(2);
 
 const Post = require("./models/post");
 const Comment = require("./models/comment");
-const User = require("./models/user");
 
 const posts = [];
-const comments = [];
-const users = [];
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -28,7 +25,6 @@ async function main() {
   console.log("Debug: Should be connected?");
   await createPosts();
   await createComments();
-  await createUsers();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
