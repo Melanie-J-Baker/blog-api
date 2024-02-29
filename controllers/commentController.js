@@ -1,13 +1,14 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
-//const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
-// GET list of all Comments
+// GET list of all Comments on a Post
 exports.comments_list = asyncHandler(async (req, res, next) => {
   const { post, text, username, timestamp } = req.query;
-  const allComments = await Comment.find().sort({ timestamp: -1 }).exec();
+  const allComments = await Comment.find({ post: req.params.postid })
+    .sort({ timestamp: -1 })
+    .exec();
   let results = [...allComments];
   if (post) {
     results = results.filter((r) => r.post === post);
@@ -61,18 +62,22 @@ exports.comment_create = [
       post: req.params.postid,
       text: req.body.text,
       username: req.body.username,
-      timestamp: Date.now(),
+      timestamp: new Date().toLocaleString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     });
     if (!errors.isEmpty()) {
-      res.json(errors.array());
-      return res
-        .status(400)
-        .json({ error: "Comment create data is not valid" });
+      return res.status(400).json({ error: errors.array() });
     } else {
       // Data is valid
       // Save Comment
       await comment.save();
-      res.json(comment);
+      return res.json(comment);
     }
   }),
 ];
@@ -106,7 +111,14 @@ exports.comment_update = [
       post: req.body.postid,
       text: req.body.text,
       username: req.body.username,
-      timestamp: Date.now(),
+      timestamp: new Date().toLocaleString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       _id: req.params.commentid,
     });
     if (!errors.isEmpty()) {

@@ -4,7 +4,18 @@ const CommentSchema = new Schema({
   post: { type: Schema.Types.ObjectId, ref: "Post", required: true },
   text: { type: String, required: true, maxLength: 5000 },
   username: { type: String, required: true, maxlength: 50 },
-  timestamp: { type: Date, required: true, default: Date.now() },
+  timestamp: {
+    type: String,
+    required: true,
+    default: new Date().toLocaleString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  },
 });
 
 module.exports = mongoose.model("Comment", CommentSchema);

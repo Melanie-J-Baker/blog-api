@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-const apicache = require("apicache");
+//const apicache = require("apicache");
 const compression = require("compression");
 const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
@@ -21,8 +21,8 @@ const blogRouter = require("./routes/blog");
 
 const app = express();
 
-let cache = apicache.middleware;
-app.use(cache("10 minutes")); // cache results for 5 mins
+//let cache = apicache.middleware;
+//app.use(cache("10 minutes")); // cache results for 5 mins
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -33,13 +33,6 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-
-// enable CORS pre-flight
-app.options("*", cors());
 
 // Set up rate limiter: maximum of twenty requests per minute
 const limiter = RateLimit({
@@ -64,6 +57,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
+app.use(cors());
+
+// enable CORS pre-flight
+app.options("*", cors());
 
 // Use routes
 app.use("/", indexRouter);

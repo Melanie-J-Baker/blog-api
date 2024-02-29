@@ -3,7 +3,18 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   title: { type: String, required: true, maxLength: 100 },
   text: { type: String, required: true, maxLength: 5000 },
-  timestamp: { type: Date, required: true, default: Date.now() },
+  timestamp: {
+    type: String,
+    required: true,
+    default: new Date().toLocaleString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  },
   published: { type: Boolean, required: true, default: false },
   comments: { type: Array, required: false, default: [] },
 });

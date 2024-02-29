@@ -31,7 +31,9 @@ exports.post_detail = asyncHandler(async (req, res, next) => {
   // Get details of post and comments (in parallel)
   const [post, allCommentsOnPost] = await Promise.all([
     Post.findById(req.params.postid).exec(),
-    Comment.find({ post: req.params.postid }, "text username timestamp").exec(),
+    Comment.find({ post: req.params.postid }, "text username timestamp")
+      .sort({ timestamp: -1 })
+      .exec(),
   ]);
   if (post === null) {
     // No results
@@ -63,13 +65,19 @@ exports.post_create = [
     const post = new Post({
       title: req.body.title,
       text: req.body.text,
-      timestamp: Date.now(),
+      timestamp: new Date().toLocaleString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       published: req.body.published,
       comments: [],
     });
     if (!errors.isEmpty()) {
-      res.json(errors.array());
-      return res.status(400).json({ error: "Post create data is not valid" });
+      return res.status(400).json({ error: errors.array() });
     } else {
       // Data is valid - save Post
       await post.save();
@@ -125,7 +133,14 @@ exports.post_update = [
     const post = new Post({
       title: req.body.title,
       text: req.body.text,
-      timestamp: Date.now(),
+      timestamp: new Date().toLocaleString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       published: req.body.published,
       comments: [],
       _id: req.params.postid,
