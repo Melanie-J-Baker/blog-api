@@ -66,9 +66,8 @@ exports.post_create = [
       title: req.body.title,
       text: req.body.text,
       timestamp: new Date().toLocaleString("en-GB", {
-        weekday: "long",
         day: "numeric",
-        month: "short",
+        month: "numeric",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
@@ -134,9 +133,8 @@ exports.post_update = [
       title: req.body.title,
       text: req.body.text,
       timestamp: new Date().toLocaleString("en-GB", {
-        weekday: "long",
         day: "numeric",
-        month: "short",
+        month: "numeric",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",

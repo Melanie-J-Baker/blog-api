@@ -7,9 +7,8 @@ const PostSchema = new Schema({
     type: String,
     required: true,
     default: new Date().toLocaleString("en-GB", {
-      weekday: "long",
       day: "numeric",
-      month: "short",
+      month: "numeric",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",

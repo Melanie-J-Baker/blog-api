@@ -63,9 +63,8 @@ exports.comment_create = [
       text: req.body.text,
       username: req.body.username,
       timestamp: new Date().toLocaleString("en-GB", {
-        weekday: "long",
         day: "numeric",
-        month: "short",
+        month: "numeric",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
@@ -112,9 +111,8 @@ exports.comment_update = [
       text: req.body.text,
       username: req.body.username,
       timestamp: new Date().toLocaleString("en-GB", {
-        weekday: "long",
         day: "numeric",
-        month: "short",
+        month: "numeric",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
