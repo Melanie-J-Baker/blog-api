@@ -18,7 +18,8 @@ router.post(
 // POST request to log in
 router.post("/login", user_controller.user_login_post);
 
-router.get("/user", (req, res, next) => {
+// GET request for secure route
+router.get("/user", (req, res) => {
   res.json({
     message: "You made it to the secure route",
     user: req.user,
